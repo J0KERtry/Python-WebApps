@@ -1,6 +1,13 @@
-FROM alpine:3.13 as tzdata
-RUN apk --no-cache add tzdata
-FROM golang:1.16.1
-COPY --from=tzdata /usr/share/zoneinfo /usr/share/zoneinfo
-ENV TZ='Asia/Tokyo'
-ENV LANG='ja_JP.UTF-8'
+FROM python:3.9.5-alpine
+WORKDIR /app
+COPY requirements.txt .
+RUN apk --no-cache add build-base libffi-dev openssl-dev && \
+    pip install --no-cache-dir -r requirements.txt && \
+    apk del build-base libffi-dev openssl-dev \
+    pip install flask, render_template
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "-B", "run.py"]

@@ -1,0 +1,11 @@
+location /api/serviceA/ {
+    proxy_pass http://serviceA:8080;
+}
+
+location /api/serviceB/ {
+    proxy_pass http://serviceB:8080;
+}
+
+location /api/serviceC/ {
+    proxy_pass http://serviceC:8080;
+}

@@ -1,0 +1,46 @@
+version: "3"
+
+x-common: &common
+  working_dir: /app
+  expose:
+    - 5000
+  command: flask run --host=0.0.0.0
+
+services:
+  nginx-proxy:
+    image: adminer
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./conf:/etc/nginx/vhost.d
+    depends_on:
+      - serviceA
+      - serviceB
+      - serviceC
+
+  termination:
+    image: containous/whoami
+    environment:
+      - VIRTUAL_HOST=localhost
+
+  serviceA:
+    <<: *common
+    build:
+      context: "./serviceA"
+    volumes:
+      - ./serviceA:/app
+
+  serviceB:
+    <<: *common
+    build:
+      context: "./serviceB"
+    volumes:
+      - ./serviceB:/app
+
+  serviceC:
+    <<: *common
+    build:
+      context: "./serviceC"
+    volumes:
+      - ./serviceC:/app
