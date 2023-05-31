@@ -1,11 +1,11 @@
 FROM python:alpine
 
-RUN pip install --upgrade pip
 RUN pip install Flask
 RUN pip install SQLAlchemy
+RUN pip install flask_sqlalchemy
 
 WORKDIR /app
 
 COPY ./app /app
 
-CMD ["python", "app/app.py"]
+CMD ["python", "app.py"]
