@@ -1,14 +1,15 @@
 version: "3"
 
 x-common: &common
-  working_dir: /app
+  working_dir: /service
+  tty: true
   expose:
-    - 5000
-  command: flask run --host=0.0.0.0
+    - 8080
+  command: python main.py
 
 services:
   nginx-proxy:
-    image: adminer
+    image: jwilder/nginx-proxy
     ports:
       - "80:80"
     volumes:
@@ -29,18 +30,18 @@ services:
     build:
       context: "./serviceA"
     volumes:
-      - ./serviceA:/app
+      - ./serviceA:/service
 
   serviceB:
     <<: *common
     build:
       context: "./serviceB"
     volumes:
-      - ./serviceB:/app
+      - ./serviceB:/service
 
   serviceC:
     <<: *common
     build:
       context: "./serviceC"
     volumes:
-      - ./serviceC:/app
+      - ./serviceC:/service

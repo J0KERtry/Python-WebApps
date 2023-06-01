@@ -1,13 +1,16 @@
-FROM python:3.9.5-alpine
-WORKDIR /app
-COPY requirements.txt .
-RUN apk --no-cache add build-base libffi-dev openssl-dev && \
-    pip install --no-cache-dir -r requirements.txt && \
-    apk del build-base libffi-dev openssl-dev \
-    pip install flask, render_template
+FROM python:alpine
 
-COPY . .
+RUN apk --no-cache add build-base libffi-dev openssl-dev && \
+RUN pip install --no-cache-dir -r requirements.txt && \
+RUN apk del build-base libffi-dev openssl-dev \
+RUN pip install SQLAlchemy \
+RUN pip install Flask \
+RUN pip install flask_sqlalchemy
+
+WORKDIR /app
+
+COPY requirements.txt .
 
 EXPOSE 5000
 
-CMD ["python", "-B", "run.py"]
+CMD ["python", "main.py"]
