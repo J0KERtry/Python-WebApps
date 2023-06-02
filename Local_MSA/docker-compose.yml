@@ -4,7 +4,7 @@ x-common: &common
   working_dir: /app
   tty: true
   expose:
-    - 8080
+    - 5000
   command: python main.py
 
 services:
