@@ -16,32 +16,32 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./conf:/etc/nginx/vhost.d
     depends_on:
-      - serviceA
-      - serviceB
-      - serviceC
+      - service1
+      - service2
+      - service3
 
   termination:
     image: containous/whoami:latest
     environment:
       - VIRTUAL_HOST=localhost
 
-  serviceA:
+  service1:
     <<: *common
     build:
-      context: "./serviceA"
+      context: "./service1"
     volumes:
-      - ./serviceA:/service
+      - ./service1:/service
 
-  serviceB:
+  service2:
     <<: *common
     build:
-      context: "./serviceB"
+      context: "./service2"
     volumes:
-      - ./serviceB:/service
+      - ./service2:/service
 
-  serviceC:
+  service3:
     <<: *common
     build:
-      context: "./serviceC"
+      context: "./service3"
     volumes:
-      - ./serviceC:/service
+      - ./service3:/service
