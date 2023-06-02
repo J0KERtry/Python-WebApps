@@ -1,7 +1,7 @@
 version: "3"
 
 x-common: &common
-  working_dir: /service
+  working_dir: /app
   tty: true
   expose:
     - 8080
@@ -25,10 +25,13 @@ services:
     environment:
       - VIRTUAL_HOST=localhost
 
+  # service1という名前のサービスのDockerイメージをビルド
   service1:
     <<: *common
     build:
+      # Docker build時にコンテナにコピーしたいローカルファイルの場所. ymlファイルの場所をカレントディレクトリとしている.
       context: "./service1"
+    # コンテナにマウント
     volumes:
       - ./service1:/service
 
