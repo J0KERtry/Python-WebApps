@@ -1,19 +1,19 @@
 version: "3"
 
 x-common: &common
-  working_dir: /app
+  working_dir: /service
   tty: true
-  expose:
-    - 5000
   command: python main.py
 
 services:
   nginx-proxy:
-    image: jwilder/nginx-proxy:latest
+    image: jwilder/nginx-proxy:alpine
     ports:
-      - "80:80"
+      - "5000:5000"
     volumes:
+      # ソケット通信を行うためのDockerのソケットパス
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      # confファイルをnginxに利用
       - ./conf:/etc/nginx/vhost.d
     depends_on:
       - service1
@@ -21,7 +21,7 @@ services:
       - service3
 
   termination:
-    image: containous/whoami:latest
+    image: containous/whoami
     environment:
       - VIRTUAL_HOST=localhost
 
