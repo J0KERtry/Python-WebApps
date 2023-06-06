@@ -8,13 +8,16 @@ x-common: &common
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy:alpine
+    # ホストのポートとコンテナのポートを接続。（例：ホストの5000番ポートへのリクエストは、プロキシのコンテナ内の5000番に転送。）
     ports:
-      - "5000:5000"
+      - "5000:80"
+      # - "443:443"
     volumes:
       # ソケット通信を行うためのDockerのソケットパス
       - /var/run/docker.sock:/tmp/docker.sock:ro
       # confファイルをnginxに利用
       - ./conf:/etc/nginx/vhost.d
+      - ./certs:/etc/nginx/certs
     depends_on:
       - service1
       - service2
@@ -24,6 +27,8 @@ services:
     image: containous/whoami
     environment:
       - VIRTUAL_HOST=localhost
+    ports:
+    - "5000:80"
 
   # service1という名前のサービスのDockerイメージをビルド
   service1:

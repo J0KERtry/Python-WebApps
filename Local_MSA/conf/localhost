@@ -1,5 +1,5 @@
 location /api/service1/ {
-    proxy_pass http://service1:5000;
+    proxy_pass http://service1:5000;  # :[ポート番号] というURLにプロキシされる。つまり、/api/service1/へのリクエストはservice1コンテナの[ポート番号]に転送される。
 }
 
 location /api/service2/ {
