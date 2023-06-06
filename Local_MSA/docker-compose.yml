@@ -10,8 +10,8 @@ services:
     image: jwilder/nginx-proxy:alpine
     # ホストのポートとコンテナのポートを接続。（例：ホストの5000番ポートへのリクエストは、プロキシのコンテナ内の5000番に転送。）
     ports:
-      - "5000:80"
-      # - "443:443"
+      - "8080:80"
+      - "443:443"
     volumes:
       # ソケット通信を行うためのDockerのソケットパス
       - /var/run/docker.sock:/tmp/docker.sock:ro
