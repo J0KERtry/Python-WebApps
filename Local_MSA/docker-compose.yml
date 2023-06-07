@@ -3,14 +3,16 @@ version: "3"
 x-common: &common
   working_dir: /service
   tty: true
-  command: python main.py
+  expose:
+    - 80
+  command: [python, main.py]
 
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy:alpine
     # ホストのポートとコンテナのポートを接続。（例：ホストの5000番ポートへのリクエストは、プロキシのコンテナ内の5000番に転送。）
     ports:
-      - "8080:80"
+      - "5000:80"
     volumes:
       # ソケット通信を行うためのDockerのソケットパス
       - /var/run/docker.sock:/tmp/docker.sock:ro
@@ -21,7 +23,6 @@ services:
       - service1
       - service2
       - service3
-      - termination
 
   # gateway
   termination:
@@ -32,23 +33,20 @@ services:
   # service1という名前のサービスのDockerイメージをビルド
   service1:
     <<: *common
-    build:
-      # Docker build時にコンテナにコピーしたいローカルファイルの場所. ymlファイルの場所をカレントディレクトリとしている.
-      context: "./service1"
+    # Docker build時にコンテナにコピーしたいローカルファイルの場所. ymlファイルの場所をカレントディレクトリとしている.
+    build:  ./service1
     # コンテナにマウント
     volumes:
       - ./service1:/service
 
   service2:
     <<: *common
-    build:
-      context: "./service2"
+    build:  ./service2
     volumes:
       - ./service2:/service
 
   service3:
     <<: *common
-    build:
-      context: "./service3"
+    build:  ./service3
     volumes:
       - ./service3:/service
