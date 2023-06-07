@@ -16,7 +16,7 @@ services:
       # ソケット通信を行うためのDockerのソケットパス
       - /var/run/docker.sock:/tmp/docker.sock:ro
       # confファイルをnginxに利用
-      - ./conf:/etc/nginx/vhost.d
+      - ./conf/localhost:/etc/nginx/vhost.d
       - ./certs:/etc/nginx/certs
     depends_on:
       - service1

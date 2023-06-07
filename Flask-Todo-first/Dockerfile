@@ -1,8 +1,8 @@
 FROM python:alpine
 
-RUN pip install Flask
-RUN pip install SQLAlchemy
-RUN pip install flask_sqlalchemy
+RUN pip install Flask \
+    && pip install SQLAlchemy \
+    && pip install flask_sqlalchemy
 
 WORKDIR /app
 

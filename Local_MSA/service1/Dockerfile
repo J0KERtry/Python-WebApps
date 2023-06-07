@@ -5,6 +5,8 @@ RUN pip install Flask \
     && pip install flask_sqlalchemy
 
 WORKDIR /app
+
+# COPY は Dockerfileのあるディレクトリから考える
 COPY . /app
 CMD ["python", "main.py"]
 
