@@ -1,11 +1,8 @@
 FROM python:alpine
 
-RUN apk --no-cache add tzdata
-ENV TZ='Asia/Tokyo'
-
-RUN pip install Flask
-RUN pip install SQLAlchemy
-RUN pip install flask_sqlalchemy
+RUN pip install Flask \
+    && pip install SQLAlchemy \
+    && pip install flask_sqlalchemy
 
 WORKDIR /app
 COPY . /app
