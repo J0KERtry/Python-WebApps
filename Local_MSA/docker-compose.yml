@@ -3,14 +3,12 @@ version: "3"
 x-common: &common
   working_dir: /service
   tty: true
-  expose:
-    - 80
   command: [python, main.py]
 
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy:alpine
-    # ホストのポートとコンテナのポートを接続。（例：ホストの5000番ポートへのリクエストは、プロキシのコンテナ内の5000番に転送。）
+    # "ホストのポート:コンテナのポート"を接続。（例：ホストの5000番ポートへのリクエストは、プロキシのコンテナ内の5000番に転送。）
     ports:
       - "5000:80"
     volumes:
