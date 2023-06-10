@@ -71,4 +71,4 @@ services:
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: rootpassword
     ports:
-      - 5001:5001
+      - 5001:80
