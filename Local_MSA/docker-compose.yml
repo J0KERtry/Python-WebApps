@@ -43,17 +43,18 @@ services:
       - ./service2:/service
 
   service3:
+    <<: *common
     build: ./service3
     volumes:
-        - ./service3:/service
+      - ./service3:/service
     environment:
-      MYSQL_DATABASE: ./service3/db/sample.sql
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: rootpassword
-    ports:
-      - 5050:8080
-    command: flask run --host 0.0.0.0 --port 5000
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+      - MYSQL_DATABASE=sample_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - FLASK_APP=./service3/main.py
     depends_on:
       - "db"
 
@@ -70,4 +71,4 @@ services:
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: rootpassword
     ports:
-      - 3306:3306
+      - 5001:5001
