@@ -8,7 +8,7 @@ x-common: &common
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy:alpine
-    # "ホストのポート:コンテナのポート"を接続。（例：ホストの5000番ポートへのリクエストは、プロキシのコンテナ内の5000番に転送。）
+    # "ホストのポート:nginxコンテナのポート"を接続。（例：ホストの##番ポートへのリクエストは、nginxコンテナ内の**番に転送。）
     ports:
       - "5000:80"
     volumes:
@@ -20,7 +20,6 @@ services:
     depends_on:
       - service1
       - service2
-      - service3
 
   # gateway
   termination:
@@ -44,7 +43,31 @@ services:
       - ./service2:/service
 
   service3:
-    <<: *common
-    build:  ./service3
+    build: ./service3
     volumes:
-      - ./service3:/service
+        - ./service3:/service
+    environment:
+      MYSQL_DATABASE: ./service3/db/sample.sql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - 5050:8080
+    command: flask run --host 0.0.0.0 --port 5000
+    depends_on:
+      - "db"
+
+  db:
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/log/mysql:/var/log/mysql
+    environment:
+      MYSQL_DATABASE: sample_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - 3306:3306

@@ -1,9 +1,17 @@
-FROM python:alpine
+FROM ubuntu:18.04
 
-RUN pip install Flask \
-    && pip install SQLAlchemy \
-    && pip install flask_sqlalchemy
+RUN apt-get update \
+    && apt-get install -y git \
+    && apt-get install -y python3 \
+    && apt-get install -y python3-pip \
+    && apt-get install -y emacs
 
-CMD [python, main.py]
+RUN pip3 install flask \
+    && pip3 install --upgrade flask \
+    && pip3 install mysql-connector-python
 
-ENV LANG='ja_JP.UTF-8'
+ENV APP_PATH=/home
+WORKDIR $APP_PATH
+ENV HOME $APP_PATH
+
+CMD [ "/bin/sh" ]
