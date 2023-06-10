@@ -7,4 +7,8 @@ location /api/service2/ {
     proxy_pass http://service2:5000/;
 }
 
+location /api/service3/ {
+    proxy_pass http://service3:5000/;
+}
+
 # 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

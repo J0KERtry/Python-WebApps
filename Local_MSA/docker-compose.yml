@@ -20,6 +20,7 @@ services:
     depends_on:
       - service1
       - service2
+      - service3
 
   # gateway
   termination:
@@ -54,7 +55,6 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
       - MYSQL_ROOT_PASSWORD=rootpassword
-      - FLASK_APP=./service3/main.py
     depends_on:
       - "db"
 
